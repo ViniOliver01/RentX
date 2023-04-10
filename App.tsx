@@ -46,7 +46,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
         <NavigationContainer onReady={onLayoutRootView}>
-          <Home />;
+          <Home />
         </NavigationContainer>
       </ThemeProvider>
     </GestureHandlerRootView>
