@@ -11,6 +11,7 @@ import {
   PriceDetails,
 } from "./styles";
 
+import DefaultCar from "../../assets/defaultCar.svg";
 import Electric from "../../assets/electric.svg";
 import Gas from "../../assets/gas.svg";
 
@@ -41,13 +42,17 @@ export function CardCar({ manufactor, model, fuelType, diary, carImage }: CardCa
             <Price>{price}</Price>
           </PriceDetails>
           {fuelType === "Gas" ? (
-            <Gas width={20} height={20} />
+            <Gas width={24} height={24} />
           ) : (
-            <Electric width={20} height={20} />
+            <Electric width={24} height={24} />
           )}
         </FuelDetails>
       </CarDetails>
-      <CarImage source={{ uri: carImage }} />
+      {carImage ? (
+        <CarImage source={{ uri: carImage }} resizeMode="contain" />
+      ) : (
+        <DefaultCar width={160} height={100} />
+      )}
     </Container>
   );
 }

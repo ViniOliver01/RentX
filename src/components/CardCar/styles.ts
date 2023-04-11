@@ -20,7 +20,8 @@ export const PriceDetails = styled.View``;
 export const FuelDetails = styled.View`
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 25px;
+  margin-top: 16px;
 `;
 
 export const Manufactor = styled.Text`
@@ -49,5 +50,4 @@ export const Price = styled.Text`
 
 export const CarImage = styled.Image`
   width: 160px;
-  height: 92px;
 `;
