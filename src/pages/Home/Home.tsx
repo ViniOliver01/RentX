@@ -2,9 +2,9 @@ import React from "react";
 import { Body, Container, Header, TotalCars } from "./styles";
 
 import { FlatList, StatusBar, View } from "react-native";
+import { useTheme } from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { CardCar } from "../../components/CardCar/CardCar";
-import theme from "../../styles/theme";
 
 const carList = [
   {
@@ -91,6 +91,8 @@ const carList = [
 
 export function Home() {
   const availableCars = carList.length;
+  const theme = useTheme();
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.header} />
