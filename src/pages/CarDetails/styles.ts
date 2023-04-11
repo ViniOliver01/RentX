@@ -6,9 +6,9 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const CarImage = styled.Image`
-  width: 100%;
-  height: 200px;
+export const Header = styled.View`
+  position: absolute;
+  margin: 30px 24px;
 `;
 
 export const Details = styled.View`

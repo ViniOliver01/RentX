@@ -2,20 +2,24 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { Button } from "../../components/Form/Button/Button";
+import { ImageSlider } from "../../components/ImageSlider/ImageSlider";
 import { TechnicalFeatures } from "../../components/TechnicalFeatures/TechnicalFeatures";
 import {
   ButtonArea,
   CarDailyRate,
   CarDescription,
-  CarImage,
   CarName,
   Container,
   Daily,
   DailyTitle,
   Details,
+  Header,
   Manufacturer,
   Model,
 } from "./styles";
+
+import BackButton from "../../assets/Back.svg";
+import { IconButton } from "../../components/Form/IconButton/IconButton";
 
 export function CarDetails() {
   const theme = useTheme();
@@ -43,11 +47,16 @@ export function CarDetails() {
         backgroundColor={theme.colors.background_secondary}
       />
 
-      <CarImage
-        source={{
-          uri: "https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height=",
-        }}
-        resizeMode="contain"
+      <Header>
+        {/* <BackButton onPress={() => console.log("Back")} width={32} height={32} /> */}
+        <IconButton
+          icon={<BackButton width={32} height={32} />}
+          onPress={() => console.log("Back")}
+        />
+      </Header>
+
+      <ImageSlider
+        imagesUrl={["https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height="]}
       />
 
       <Details>
