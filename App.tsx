@@ -14,6 +14,7 @@ import {
 } from "@expo-google-fonts/archivo";
 import { Inter_400Regular, Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 
+import { CarProvider } from "./src/context/CarContext";
 import { Routes } from "./src/routes";
 
 SplashScreen.preventAutoHideAsync();
@@ -47,9 +48,11 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-        <NavigationContainer onReady={onLayoutRootView}>
-          <Routes />
-        </NavigationContainer>
+        <CarProvider>
+          <NavigationContainer onReady={onLayoutRootView}>
+            <Routes />
+          </NavigationContainer>
+        </CarProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );
