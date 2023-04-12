@@ -48,7 +48,6 @@ export function CarDetails() {
       />
 
       <Header>
-        {/* <BackButton onPress={() => console.log("Back")} width={32} height={32} /> */}
         <IconButton
           icon={<BackButton width={32} height={32} />}
           onPress={() => console.log("Back")}
