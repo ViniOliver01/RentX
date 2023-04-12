@@ -2,8 +2,20 @@ import { RectButton } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Container = styled(RectButton)`
-  background-color: ${({ theme }) => theme.colors.main};
+interface ButtonProps {
+  isDisable: boolean;
+  color: string;
+}
+
+export const Container = styled(RectButton)<ButtonProps>`
+  background-color: ${({ theme, color }) =>
+    color === "Red"
+      ? theme.colors.main
+      : color === "Green"
+      ? theme.colors.success
+      : theme.colors.shape_dark};
+  opacity: ${({ isDisable }) => (isDisable ? 0.5 : 1)};
+
   padding: 20px;
   align-items: center;
 `;

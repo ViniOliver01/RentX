@@ -28,7 +28,7 @@ export function SchedulingComplete() {
         Agora você só precisa ir até a concessionária da RENTX pegar o seu automóvel.
       </SubTitle>
 
-      <Button title="Ok" onPress={handleOk} />
+      <Button title="Ok" color="Dark" onPress={handleOk} />
     </Container>
   );
 }

@@ -26,6 +26,7 @@ import { Button } from "./../../components/Form/Button/Button";
 export function Scheduling() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
+  const isDateSelected = true;
 
   const from = "16/06/2021";
   const to = "";
@@ -72,7 +73,11 @@ export function Scheduling() {
       </Body>
 
       <ButtonArea>
-        <Button title="Confirmar" onPress={handleConfirmDate} />
+        <Button
+          title="Confirmar"
+          isDisable={!isDateSelected}
+          onPress={handleConfirmDate}
+        />
       </ButtonArea>
     </Container>
   );

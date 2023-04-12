@@ -137,7 +137,7 @@ export function SchedulingDetails() {
       </SchedulingContent>
 
       <ButtonArea>
-        <Button title="Alugar agora" onPress={handleConfirmRent} />
+        <Button title="Alugar agora" color="Green" onPress={handleConfirmRent} />
       </ButtonArea>
     </Container>
   );

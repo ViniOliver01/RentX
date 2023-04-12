@@ -4,13 +4,26 @@ import { Container, Title } from "./styles";
 
 interface ButtonProps extends RectButtonProps {
   title: string;
-  isActive?: boolean;
+  isDisable?: boolean;
+  color?: "Red" | "Green" | "Dark";
   onPress: () => void;
 }
 
-export function Button({ title, onPress, isActive = true, ...rest }: ButtonProps) {
+export function Button({
+  title,
+  onPress,
+  isDisable = false,
+  color = "Red",
+  ...rest
+}: ButtonProps) {
   return (
-    <Container onPress={onPress} {...rest}>
+    <Container
+      onPress={onPress}
+      color={color}
+      isDisable={isDisable}
+      enabled={!isDisable}
+      {...rest}
+    >
       <Title>{title}</Title>
     </Container>
   );
