@@ -18,30 +18,44 @@ import {
   Model,
 } from "./styles";
 
-import { useNavigation } from "@react-navigation/native";
+import {
+  ParamListBase,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import BackButton from "../../assets/Back.svg";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
+
+interface Car {
+  id: string;
+  brand: string;
+  name: string;
+  about: string;
+  rent: {
+    period: string;
+    price: number;
+  };
+  fuel_type: string;
+  thumbnail: string;
+  accessories: {
+    type: string;
+    name: string;
+  }[];
+  photos: string[];
+}
+
+interface RootStackParamList extends RouteProp<ParamListBase> {
+  params: { car: Car };
+}
 
 export function CarDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
+  const route = useRoute<RootStackParamList>();
 
-  const car = {
-    id: "1",
-    manufacturer: "Toyota",
-    model: "Corolla",
-    fuelType: "Gas",
-    daily: 50,
-    image: "https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height=",
-    description:
-      "Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.",
-  };
-
-  const carDaily = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-  }).format(car.daily);
+  const { car } = route.params;
+  console.log("🚀 / CarDetails / car:", car);
 
   function handleOpenCalendar() {
     navigation.navigate("Scheduling");
@@ -50,6 +64,12 @@ export function CarDetails() {
   function handleGoBack() {
     navigation.goBack();
   }
+
+  const carDaily = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 0,
+  }).format(car.rent.price);
 
   return (
     <Container>
@@ -62,14 +82,12 @@ export function CarDetails() {
         <IconButton icon={<BackButton width={32} height={32} />} onPress={handleGoBack} />
       </Header>
 
-      <ImageSlider
-        imagesUrl={["https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height="]}
-      />
+      <ImageSlider imagesUrl={car.photos} />
 
       <Details>
         <CarName>
-          <Manufacturer>{car.manufacturer.toUpperCase()}</Manufacturer>
-          <Model>{car.model}</Model>
+          <Manufacturer>{car.brand.toUpperCase()}</Manufacturer>
+          <Model>{car.name}</Model>
         </CarName>
 
         <CarDailyRate>
@@ -77,9 +95,10 @@ export function CarDetails() {
           <Daily>{carDaily}</Daily>
         </CarDailyRate>
       </Details>
-      <TechnicalFeatures />
 
-      <CarDescription>{car.description}</CarDescription>
+      <TechnicalFeatures data={car.accessories} />
+
+      <CarDescription>{car.about}</CarDescription>
 
       <ButtonArea>
         <Button title="Escolher período do aluguel" onPress={handleOpenCalendar} />

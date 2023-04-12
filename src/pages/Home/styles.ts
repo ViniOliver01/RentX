@@ -23,4 +23,6 @@ export const TotalCars = styled.Text`
 
 export const Body = styled.View`
   padding: 16px;
+  flex: 1;
+  justify-content: center;
 `;
