@@ -32,11 +32,13 @@ import { ImageSlider } from "../../components/ImageSlider/ImageSlider";
 import { TechnicalFeatures } from "../../components/TechnicalFeatures/TechnicalFeatures";
 
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../assets/Back.svg";
 import CalendarIcon from "../../assets/Calendar.svg";
 
 export function SchedulingDetails() {
   const theme = useTheme();
+  const navigation = useNavigation<any>();
 
   const car = {
     id: "1",
@@ -65,6 +67,14 @@ export function SchedulingDetails() {
     minimumFractionDigits: 0,
   }).format(car.daily * 3);
 
+  function handleConfirmRent() {
+    navigation.navigate("SchedulingComplete");
+  }
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
   return (
     <Container>
       <StatusBar
@@ -73,10 +83,7 @@ export function SchedulingDetails() {
       />
 
       <Header>
-        <IconButton
-          icon={<BackButton width={32} height={32} />}
-          onPress={() => console.log("Back")}
-        />
+        <IconButton icon={<BackButton width={32} height={32} />} onPress={handleGoBack} />
       </Header>
 
       <ImageSlider
@@ -130,10 +137,7 @@ export function SchedulingDetails() {
       </SchedulingContent>
 
       <ButtonArea>
-        <Button
-          title="Escolher período do aluguel"
-          onPress={() => console.log("Press")}
-        />
+        <Button title="Alugar agora" onPress={handleConfirmRent} />
       </ButtonArea>
     </Container>
   );

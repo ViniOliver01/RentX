@@ -18,11 +18,14 @@ import {
   Model,
 } from "./styles";
 
+import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../assets/Back.svg";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
 
 export function CarDetails() {
   const theme = useTheme();
+  const navigation = useNavigation<any>();
+
   const car = {
     id: "1",
     manufacturer: "Toyota",
@@ -40,6 +43,14 @@ export function CarDetails() {
     minimumFractionDigits: 0,
   }).format(car.daily);
 
+  function handleOpenCalendar() {
+    navigation.navigate("Scheduling");
+  }
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
+
   return (
     <Container>
       <StatusBar
@@ -48,10 +59,7 @@ export function CarDetails() {
       />
 
       <Header>
-        <IconButton
-          icon={<BackButton width={32} height={32} />}
-          onPress={() => console.log("Back")}
-        />
+        <IconButton icon={<BackButton width={32} height={32} />} onPress={handleGoBack} />
       </Header>
 
       <ImageSlider
@@ -74,10 +82,7 @@ export function CarDetails() {
       <CarDescription>{car.description}</CarDescription>
 
       <ButtonArea>
-        <Button
-          title="Escolher período do aluguel"
-          onPress={() => console.log("Press")}
-        />
+        <Button title="Escolher período do aluguel" onPress={handleOpenCalendar} />
       </ButtonArea>
     </Container>
   );

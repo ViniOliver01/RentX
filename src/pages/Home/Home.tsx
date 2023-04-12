@@ -1,6 +1,7 @@
 import React from "react";
 import { Body, Container, Header, TotalCars } from "./styles";
 
+import { useNavigation } from "@react-navigation/native";
 import { FlatList, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import Logo from "../../assets/logo.svg";
@@ -92,6 +93,11 @@ const carList = [
 export function Home() {
   const availableCars = carList.length;
   const theme = useTheme();
+  const navigation = useNavigation<any>();
+
+  function handleSelectCar() {
+    navigation.navigate("CarDetails");
+  }
 
   return (
     <Container>
@@ -115,6 +121,7 @@ export function Home() {
               model={item.model}
               diary={item.daily}
               carImage={item.carImage}
+              onPress={handleSelectCar}
             />
           )}
         />

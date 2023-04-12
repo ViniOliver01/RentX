@@ -4,12 +4,19 @@ import { useTheme } from "styled-components";
 
 import { Container, SubTitle, Title } from "./styles";
 
+import { useNavigation } from "@react-navigation/native";
 import Done from "../../assets/Done.svg";
 import XLogo from "../../assets/X-logo.svg";
 import { Button } from "../../components/Form/Button/Button";
 
 export function SchedulingComplete() {
   const theme = useTheme();
+  const navigation = useNavigation<any>();
+
+  function handleOk() {
+    navigation.navigate("Home");
+  }
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.header} />
@@ -21,7 +28,7 @@ export function SchedulingComplete() {
         Agora você só precisa ir até a concessionária da RENTX pegar o seu automóvel.
       </SubTitle>
 
-      <Button title="Ok" onPress={() => console.log("Ok")} />
+      <Button title="Ok" onPress={handleOk} />
     </Container>
   );
 }

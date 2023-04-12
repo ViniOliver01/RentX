@@ -17,6 +17,7 @@ import {
   TitleBox,
 } from "./styles";
 
+import { useNavigation } from "@react-navigation/native";
 import BackIcon from "../../assets/Back-white.svg";
 import ArrowRight from "../../assets/arrow-right.svg";
 import { Calendar } from "../../components/Calendar/Calendar";
@@ -24,8 +25,18 @@ import { Button } from "./../../components/Form/Button/Button";
 
 export function Scheduling() {
   const theme = useTheme();
+  const navigation = useNavigation<any>();
+
   const from = "16/06/2021";
   const to = "";
+
+  function handleConfirmDate() {
+    navigation.navigate("SchedulingDetails");
+  }
+
+  function handleGoBack() {
+    navigation.goBack();
+  }
 
   return (
     <Container>
@@ -33,10 +44,7 @@ export function Scheduling() {
 
       <Header>
         <BackButton>
-          <IconButton
-            icon={<BackIcon width={32} height={32} />}
-            onPress={() => console.log("Back")}
-          />
+          <IconButton icon={<BackIcon width={32} height={32} />} onPress={handleGoBack} />
         </BackButton>
         <TitleBox>
           <Title>Escolha uma</Title>
@@ -64,7 +72,7 @@ export function Scheduling() {
       </Body>
 
       <ButtonArea>
-        <Button title="Confirmar" onPress={() => console.log("Confirmar")} />
+        <Button title="Confirmar" onPress={handleConfirmDate} />
       </ButtonArea>
     </Container>
   );
