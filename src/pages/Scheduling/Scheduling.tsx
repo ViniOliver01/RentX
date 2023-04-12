@@ -30,10 +30,12 @@ import { Button } from "./../../components/Form/Button/Button";
 export function Scheduling() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
-  const { handleSetScheduling } = useCarData();
+  const { handleSetScheduling, unavailableDates } = useCarData();
 
   const [lastSelectedDate, setLastSelectedDate] = useState<DayProps>({} as DayProps);
-  const [markedDates, setMarkedDates] = useState<MarkedDateProps>({} as MarkedDateProps);
+  const [markedDates, setMarkedDates] = useState<MarkedDateProps>(
+    unavailableDates as MarkedDateProps
+  );
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -63,7 +65,9 @@ export function Scheduling() {
 
     setLastSelectedDate(end);
     const interval = generateInterval(start, end);
-    setMarkedDates(interval);
+    const newMarkedDates = Object.assign(unavailableDates, interval);
+
+    setMarkedDates(newMarkedDates);
   }
 
   return (

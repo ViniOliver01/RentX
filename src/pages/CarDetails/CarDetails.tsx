@@ -20,15 +20,24 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../assets/Back.svg";
+import { generateUnavailableInterval } from "../../components/Calendar/generateUnavailableInterval";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
 import { useCarData } from "../../context/CarContext";
+import api from "../../services/api";
 
 export function CarDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
-  const { car } = useCarData();
+  const { car, handleUnavailableDates } = useCarData();
 
-  function handleOpenCalendar() {
+  async function handleOpenCalendar() {
+    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+    const unavailableDates = generateUnavailableInterval(
+      schedulesByCar.data.unavailable_dates
+    );
+
+    handleUnavailableDates(unavailableDates);
+
     navigation.navigate("Scheduling");
   }
 

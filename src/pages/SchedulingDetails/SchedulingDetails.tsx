@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar } from "react-native";
+import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
 import {
@@ -37,6 +37,7 @@ import BackButton from "../../assets/Back.svg";
 import CalendarIcon from "../../assets/Calendar.svg";
 import { TechnicalFeatures } from "../../components/TechnicalFeatures/TechnicalFeatures";
 import { useCarData } from "../../context/CarContext";
+import api from "../../services/api";
 
 export function SchedulingDetails() {
   const theme = useTheme();
@@ -58,8 +59,25 @@ export function SchedulingDetails() {
     minimumFractionDigits: 0,
   }).format(car.rent.price * scheduling.days);
 
-  function handleConfirmRent() {
-    navigation.navigate("SchedulingComplete");
+  async function handleConfirmRent() {
+    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
+
+    const unavailable_dates = [
+      ...schedulesByCar.data.unavailable_dates,
+      ...scheduling.interval,
+    ];
+
+    await api
+      .put(`/schedules_bycars/${car.id}`, {
+        id: car.id,
+        unavailable_dates,
+      })
+      .then(() => {
+        navigation.navigate("SchedulingComplete");
+      })
+      .catch((err) => {
+        Alert.alert("Não foi possível confirmar o agendamento");
+      });
   }
 
   function handleGoBack() {
