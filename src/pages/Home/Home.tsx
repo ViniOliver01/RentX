@@ -6,38 +6,22 @@ import { ActivityIndicator, FlatList, StatusBar, View } from "react-native";
 import { useTheme } from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { CardCar } from "../../components/CardCar/CardCar";
+import { Car, useCarData } from "../../context/CarContext";
 import api from "../../services/api";
 
-interface Cars {
-  id: string;
-  brand: string;
-  name: string;
-  about: string;
-  rent: {
-    period: string;
-    price: number;
-  };
-  fuel_type: string;
-  thumbnail: string;
-  accessories: {
-    type: string;
-    name: string;
-  }[];
-  photos: string[];
-}
-
 export function Home() {
-  const [carList, setCarList] = useState<Cars[]>();
+  const [carList, setCarList] = useState<Car[]>();
   const [isLoading, setIsLoading] = useState(true);
+  const { handleSetCar } = useCarData();
 
   const availableCars = 10;
   const theme = useTheme();
   const navigation = useNavigation<any>();
 
   function handleSelectCar(id: string) {
-    navigation.navigate("CarDetails", {
-      car: carList.filter((car) => car.id === id)[0],
-    });
+    const car = carList.filter((car) => car.id === id)[0];
+    handleSetCar(car);
+    navigation.navigate("CarDetails");
   }
 
   useEffect(() => {

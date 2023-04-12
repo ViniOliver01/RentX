@@ -29,43 +29,34 @@ import {
 
 import { Button } from "../../components/Form/Button/Button";
 import { ImageSlider } from "../../components/ImageSlider/ImageSlider";
-import { TechnicalFeatures } from "../../components/TechnicalFeatures/TechnicalFeatures";
 
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { format } from "date-fns";
 import BackButton from "../../assets/Back.svg";
 import CalendarIcon from "../../assets/Calendar.svg";
+import { TechnicalFeatures } from "../../components/TechnicalFeatures/TechnicalFeatures";
+import { useCarData } from "../../context/CarContext";
 
 export function SchedulingDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
+  const { car, scheduling } = useCarData();
 
-  const car = {
-    id: "1",
-    manufacturer: "Toyota",
-    model: "Corolla",
-    fuelType: "Gas",
-    daily: 580,
-    image: "https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height=",
-    description:
-      "Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.",
-  };
-  const startDate = "18/06/2021";
-  const endDate = "20/06/2021";
-
-  const days = 3;
+  const startDate = format(scheduling.start_Date, "dd/MM/yyyy");
+  const endDate = format(scheduling.end_Date, "dd/MM/yyyy");
 
   const carDaily = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 0,
-  }).format(car.daily);
+  }).format(car.rent.price);
 
   const totalValue = new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
     minimumFractionDigits: 0,
-  }).format(car.daily * 3);
+  }).format(car.rent.price * scheduling.days);
 
   function handleConfirmRent() {
     navigation.navigate("SchedulingComplete");
@@ -86,22 +77,21 @@ export function SchedulingDetails() {
         <IconButton icon={<BackButton width={32} height={32} />} onPress={handleGoBack} />
       </Header>
 
-      <ImageSlider
-        imagesUrl={["https://www.toyotaaruba.com/readBlob.do?id=14860&width=190&height="]}
-      />
+      <ImageSlider imagesUrl={car.photos} />
 
       <Details>
         <CarName>
-          <Manufacturer>{car.manufacturer.toUpperCase()}</Manufacturer>
-          <Model>{car.model}</Model>
+          <Manufacturer>{car.brand.toUpperCase()}</Manufacturer>
+          <Model>{car.name}</Model>
         </CarName>
 
         <CarDailyRate>
-          <DailyTitle>AO DIA</DailyTitle>
+          <DailyTitle>{car.rent.period.toUpperCase()}</DailyTitle>
           <Daily>{carDaily}</Daily>
         </CarDailyRate>
       </Details>
-      <TechnicalFeatures />
+
+      <TechnicalFeatures data={car.accessories} />
 
       <SchedulingContent>
         <DateBox>
@@ -129,7 +119,7 @@ export function SchedulingDetails() {
             <ValueDetailsTitle>TOTAL</ValueDetailsTitle>
 
             <ValueDetailsExplain>
-              {carDaily} x {days} diárias
+              {carDaily} x {scheduling.days} diárias
             </ValueDetailsExplain>
           </ValueDetails>
           <TotalValue>{totalValue}</TotalValue>

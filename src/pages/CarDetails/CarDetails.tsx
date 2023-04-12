@@ -18,44 +18,15 @@ import {
   Model,
 } from "./styles";
 
-import {
-  ParamListBase,
-  RouteProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import BackButton from "../../assets/Back.svg";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
-
-interface Car {
-  id: string;
-  brand: string;
-  name: string;
-  about: string;
-  rent: {
-    period: string;
-    price: number;
-  };
-  fuel_type: string;
-  thumbnail: string;
-  accessories: {
-    type: string;
-    name: string;
-  }[];
-  photos: string[];
-}
-
-interface RootStackParamList extends RouteProp<ParamListBase> {
-  params: { car: Car };
-}
+import { useCarData } from "../../context/CarContext";
 
 export function CarDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
-  const route = useRoute<RootStackParamList>();
-
-  const { car } = route.params;
-  console.log("🚀 / CarDetails / car:", car);
+  const { car } = useCarData();
 
   function handleOpenCalendar() {
     navigation.navigate("Scheduling");
