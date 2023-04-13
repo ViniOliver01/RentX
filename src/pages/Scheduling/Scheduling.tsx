@@ -27,6 +27,11 @@ import { generateInterval } from "../../components/Calendar/generateInterval";
 import { useCarData } from "../../context/CarContext";
 import { Button } from "./../../components/Form/Button/Button";
 
+interface TimestampProps {
+  start_timestamp: number;
+  end_timestamp: number;
+}
+
 export function Scheduling() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
@@ -38,8 +43,16 @@ export function Scheduling() {
   );
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [dateTimestamp, setDateTimestamp] = useState<TimestampProps>(
+    {} as TimestampProps
+  );
 
   function handleConfirmDate() {
+    handleSetScheduling(
+      new Date(dateTimestamp.start_timestamp),
+      new Date(dateTimestamp.end_timestamp)
+    );
     navigation.navigate("SchedulingDetails");
   }
 
@@ -55,19 +68,46 @@ export function Scheduling() {
       start = end;
       end = start;
     }
-    const startDay = addDays(start.timestamp, 1);
-    const endDay = addDays(end.timestamp, 1);
-
-    setStartDate(format(startDay, "dd/MM/yyyy"));
-    setEndDate(format(endDay, "dd/MM/yyyy"));
-
-    handleSetScheduling(new Date(start.timestamp), new Date(end.timestamp));
 
     setLastSelectedDate(end);
     const interval = generateInterval(start, end);
-    const newMarkedDates = Object.assign(unavailableDates, interval);
 
-    setMarkedDates(newMarkedDates);
+    let markedDays: string[] = [];
+    let unavailableDays: string[] = [];
+
+    Object.keys(interval).forEach((key) => {
+      markedDays.push(key);
+    });
+
+    Object.keys(unavailableDates).forEach((key) => {
+      unavailableDays.push(key);
+    });
+
+    if (
+      unavailableDays.includes(start.dateString) ||
+      unavailableDays.includes(end.dateString)
+    ) {
+      return;
+    }
+
+    var error = false;
+
+    for (var i = 0; i < unavailableDays.length; i++) {
+      if (markedDays.includes(unavailableDays[i])) {
+        error = true;
+        break;
+      }
+    }
+    if (error) {
+      return;
+    }
+
+    const startDay = addDays(start.timestamp, 1);
+    const endDay = addDays(end.timestamp, 1);
+    setStartDate(format(startDay, "dd/MM/yyyy"));
+    setEndDate(format(endDay, "dd/MM/yyyy"));
+    setDateTimestamp({ start_timestamp: start.timestamp, end_timestamp: end.timestamp });
+    setMarkedDates(interval);
   }
 
   return (
@@ -104,13 +144,16 @@ export function Scheduling() {
       </Header>
 
       <Body>
-        <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
+        <Calendar
+          markedDates={Object.assign(markedDates, unavailableDates)}
+          onDayPress={handleChangeDate}
+        />
       </Body>
 
       <ButtonArea>
         <Button
           title="Confirmar"
-          isDisable={startDate === endDate}
+          isDisable={startDate === endDate || hasError}
           onPress={handleConfirmDate}
         />
       </ButtonArea>
