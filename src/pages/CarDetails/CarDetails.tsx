@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { Button } from "../../components/Form/Button/Button";
@@ -29,15 +29,17 @@ export function CarDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
   const { car, handleUnavailableDates } = useCarData();
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleOpenCalendar() {
+    setIsLoading(true);
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
     const unavailableDates = generateUnavailableInterval(
       schedulesByCar.data.unavailable_dates
     );
 
     handleUnavailableDates(unavailableDates);
-
+    setIsLoading(false);
     navigation.navigate("Scheduling");
   }
 
@@ -81,7 +83,11 @@ export function CarDetails() {
       <CarDescription>{car.about}</CarDescription>
 
       <ButtonArea>
-        <Button title="Escolher período do aluguel" onPress={handleOpenCalendar} />
+        <Button
+          title="Escolher período do aluguel"
+          onPress={handleOpenCalendar}
+          isLoading={isLoading}
+        />
       </ButtonArea>
     </Container>
   );

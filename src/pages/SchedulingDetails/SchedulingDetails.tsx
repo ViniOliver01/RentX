@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Alert, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
@@ -43,6 +43,7 @@ export function SchedulingDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
   const { car, scheduling } = useCarData();
+  const [isLoading, setIsLoading] = useState(false);
 
   const startDate = format(scheduling.start_Date, "dd/MM/yyyy");
   const endDate = format(scheduling.end_Date, "dd/MM/yyyy");
@@ -60,6 +61,7 @@ export function SchedulingDetails() {
   }).format(car.rent.price * scheduling.days);
 
   async function handleConfirmRent() {
+    setIsLoading(true);
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`);
 
     const unavailable_dates = [
@@ -73,11 +75,13 @@ export function SchedulingDetails() {
         unavailable_dates,
       })
       .then(() => {
+        setIsLoading(false);
         navigation.navigate("SchedulingComplete");
       })
       .catch((err) => {
         Alert.alert("Não foi possível confirmar o agendamento");
       });
+    setIsLoading(false);
   }
 
   function handleGoBack() {
@@ -145,7 +149,12 @@ export function SchedulingDetails() {
       </SchedulingContent>
 
       <ButtonArea>
-        <Button title="Alugar agora" color="Green" onPress={handleConfirmRent} />
+        <Button
+          title="Alugar agora"
+          color="Green"
+          onPress={handleConfirmRent}
+          isLoading={isLoading}
+        />
       </ButtonArea>
     </Container>
   );
