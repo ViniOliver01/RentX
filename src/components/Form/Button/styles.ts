@@ -17,6 +17,8 @@ export const Container = styled(RectButton)<ButtonProps>`
   opacity: ${({ isDisable }) => (isDisable ? 0.5 : 1)};
 
   padding: 20px;
+  height: ${RFValue(60)}px;
+  justify-content: center;
   align-items: center;
 `;
 
