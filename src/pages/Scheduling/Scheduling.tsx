@@ -18,13 +18,14 @@ import {
 } from "./styles";
 
 import { useNavigation } from "@react-navigation/native";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import BackIcon from "../../assets/Back-white.svg";
 import ArrowRight from "../../assets/arrow-right.svg";
 import { Calendar, DayProps, MarkedDateProps } from "../../components/Calendar/Calendar";
 import { generateInterval } from "../../components/Calendar/generateInterval";
 
 import { useCarData } from "../../context/CarContext";
+import { getPlatformDate } from "../../utils/getPlatformDate";
 import { Button } from "./../../components/Form/Button/Button";
 
 interface TimestampProps {
@@ -102,8 +103,8 @@ export function Scheduling() {
       return;
     }
 
-    const startDay = addDays(start.timestamp, 1);
-    const endDay = addDays(end.timestamp, 1);
+    const startDay = getPlatformDate(new Date(start.timestamp));
+    const endDay = getPlatformDate(new Date(end.timestamp));
     setStartDate(format(startDay, "dd/MM/yyyy"));
     setEndDate(format(endDay, "dd/MM/yyyy"));
     setDateTimestamp({ start_timestamp: start.timestamp, end_timestamp: end.timestamp });
