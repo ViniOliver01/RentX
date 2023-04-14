@@ -10,6 +10,7 @@ import {
   CarDescription,
   CarName,
   Container,
+  Content,
   Daily,
   DailyTitle,
   Details,
@@ -58,25 +59,26 @@ export function CarDetails() {
         backgroundColor={theme.colors.background_secondary}
       />
 
-      <BackButton color="Black" />
+      <Content>
+        <BackButton color="Black" />
+        <ImageSlider imagesUrl={car.photos} />
 
-      <ImageSlider imagesUrl={car.photos} />
+        <Details>
+          <CarName>
+            <Manufacturer>{car.brand.toUpperCase()}</Manufacturer>
+            <Model>{car.name}</Model>
+          </CarName>
 
-      <Details>
-        <CarName>
-          <Manufacturer>{car.brand.toUpperCase()}</Manufacturer>
-          <Model>{car.name}</Model>
-        </CarName>
+          <CarDailyRate>
+            <DailyTitle>AO DIA</DailyTitle>
+            <Daily>{carDaily}</Daily>
+          </CarDailyRate>
+        </Details>
 
-        <CarDailyRate>
-          <DailyTitle>AO DIA</DailyTitle>
-          <Daily>{carDaily}</Daily>
-        </CarDailyRate>
-      </Details>
+        <TechnicalFeatures data={car.accessories} />
 
-      <TechnicalFeatures data={car.accessories} />
-
-      <CarDescription>{car.about}</CarDescription>
+        <CarDescription>{car.about}</CarDescription>
+      </Content>
 
       <ButtonArea>
         <Button
