@@ -13,15 +13,13 @@ import {
   Daily,
   DailyTitle,
   Details,
-  Header,
   Manufacturer,
   Model,
 } from "./styles";
 
 import { useNavigation } from "@react-navigation/native";
-import BackButton from "../../assets/Back.svg";
 import { generateUnavailableInterval } from "../../components/Calendar/generateUnavailableInterval";
-import { IconButton } from "../../components/Form/IconButton/IconButton";
+import { BackButton } from "../../components/Form/BackButton/BackButton";
 import { useCarData } from "../../context/CarContext";
 import api from "../../services/api";
 
@@ -60,9 +58,7 @@ export function CarDetails() {
         backgroundColor={theme.colors.background_secondary}
       />
 
-      <Header>
-        <IconButton icon={<BackButton width={32} height={32} />} onPress={handleGoBack} />
-      </Header>
+      <BackButton color="Black" />
 
       <ImageSlider imagesUrl={car.photos} />
 
