@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { Dimensions } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 import { CarImage, CarImageWrapper, Container, ImageIndex, ImageIndexes } from "./styles";
 
 interface ImageSliderProps {
@@ -6,23 +8,32 @@ interface ImageSliderProps {
 }
 
 export function ImageSlider({ imagesUrl }: ImageSliderProps) {
-  const image = imagesUrl[0];
+  const width = Dimensions.get("window").width;
+  const [stateIndex, setIndex] = useState(0);
 
   return (
     <Container>
       <ImageIndexes>
-        <ImageIndex active={false} />
-        <ImageIndex active={false} />
-        <ImageIndex active={true} />
-        <ImageIndex active={false} />
+        {imagesUrl.map((item, index) => (
+          <ImageIndex key={index} active={index === stateIndex} />
+        ))}
       </ImageIndexes>
 
       <CarImageWrapper>
-        <CarImage
-          source={{
-            uri: image,
-          }}
-          resizeMode="contain"
+        <Carousel
+          loop
+          width={width}
+          height={width / 2}
+          data={imagesUrl}
+          onSnapToItem={(index) => setIndex(index)}
+          renderItem={({ item }) => (
+            <CarImage
+              source={{
+                uri: item,
+              }}
+              resizeMode="contain"
+            />
+          )}
         />
       </CarImageWrapper>
     </Container>
