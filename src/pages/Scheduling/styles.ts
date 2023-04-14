@@ -2,7 +2,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Container = styled(ScrollView)``;
+export const Container = styled.View`
+  flex: 1;
+`;
+
+export const Content = styled(ScrollView)`
+  background-color: ${({ theme }) => theme.colors.background_secondary};
+`;
 
 export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.header};
@@ -55,11 +61,15 @@ export const DateValue = styled.Text<DateValueProps>`
 `;
 
 export const Body = styled.View`
-  background-color: red;
+  padding-bottom: 120px;
 `;
 
 export const ButtonArea = styled.View`
   background-color: ${({ theme }) => theme.colors.background_primary};
   padding: 24px;
-  flex: 1;
+  height: 120px;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 `;

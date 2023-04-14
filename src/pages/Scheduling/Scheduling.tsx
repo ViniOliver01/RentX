@@ -8,6 +8,7 @@ import {
   Body,
   ButtonArea,
   Container,
+  Content,
   DateBox,
   DateTitle,
   DateValue,
@@ -114,43 +115,46 @@ export function Scheduling() {
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.header} />
+      <Content>
+        <Header>
+          <BackButton>
+            <IconButton
+              icon={<BackIcon width={32} height={32} />}
+              onPress={handleGoBack}
+            />
+          </BackButton>
+          <TitleBox>
+            <Title>Escolha uma</Title>
+            <Title>data de início e</Title>
+            <Title>fim do aluguel</Title>
+          </TitleBox>
 
-      <Header>
-        <BackButton>
-          <IconButton icon={<BackIcon width={32} height={32} />} onPress={handleGoBack} />
-        </BackButton>
-        <TitleBox>
-          <Title>Escolha uma</Title>
-          <Title>data de início e</Title>
-          <Title>fim do aluguel</Title>
-        </TitleBox>
+          <SelectedDate>
+            <DateBox>
+              <DateTitle>DE</DateTitle>
+              <DateValue isEmpty={!startDate}>
+                {!!startDate ? startDate : "____________"}
+              </DateValue>
+            </DateBox>
 
-        <SelectedDate>
-          <DateBox>
-            <DateTitle>DE</DateTitle>
-            <DateValue isEmpty={!startDate}>
-              {!!startDate ? startDate : "____________"}
-            </DateValue>
-          </DateBox>
+            <ArrowRight />
 
-          <ArrowRight />
+            <DateBox>
+              <DateTitle>ATÉ</DateTitle>
+              <DateValue isEmpty={!endDate}>
+                {!!endDate ? endDate : "____________"}
+              </DateValue>
+            </DateBox>
+          </SelectedDate>
+        </Header>
 
-          <DateBox>
-            <DateTitle>ATÉ</DateTitle>
-            <DateValue isEmpty={!endDate}>
-              {!!endDate ? endDate : "____________"}
-            </DateValue>
-          </DateBox>
-        </SelectedDate>
-      </Header>
-
-      <Body>
-        <Calendar
-          markedDates={Object.assign(markedDates, unavailableDates)}
-          onDayPress={handleChangeDate}
-        />
-      </Body>
-
+        <Body>
+          <Calendar
+            markedDates={Object.assign(markedDates, unavailableDates)}
+            onDayPress={handleChangeDate}
+          />
+        </Body>
+      </Content>
       <ButtonArea>
         <Button
           title="Confirmar"
