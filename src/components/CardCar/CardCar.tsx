@@ -51,10 +51,12 @@ export function CardCar({
             <Diary>AO DIA</Diary>
             <Price>{price}</Price>
           </PriceDetails>
-          {fuelType === "Gas" ? (
-            <Gas width={24} height={24} />
-          ) : (
+          {fuelType === "electric" ? (
             <Electric width={24} height={24} />
+          ) : fuelType === "electric_motor" ? (
+            <Electric width={24} height={24} />
+          ) : (
+            <Gas width={24} height={24} />
           )}
         </FuelDetails>
       </CarDetails>
