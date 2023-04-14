@@ -13,7 +13,7 @@ import api from "../../services/api";
 export function Home() {
   const [carList, setCarList] = useState<Car[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const { handleSetCar, handleSetUserSchedules } = useCarData();
+  const { handleSetCar } = useCarData();
 
   const availableCars = 10;
   const theme = useTheme();
@@ -32,11 +32,7 @@ export function Home() {
   useEffect(() => {
     async function getData() {
       const carResponse = await api.get("/cars");
-      const userSchedulesResponse = await api.get(`/schedules_byuser?user_id=${1}`);
-
       setCarList(carResponse.data);
-      handleSetUserSchedules(userSchedulesResponse.data);
-
       setIsLoading(false);
     }
     getData();
