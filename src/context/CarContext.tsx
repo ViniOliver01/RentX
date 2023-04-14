@@ -11,9 +11,11 @@ interface CarContextData {
   car: Car;
   scheduling: SchedulingDate;
   unavailableDates: MarkedDateProps;
+  userSchedules: UserSchedules[];
   handleSetCar(car: Car): void;
   handleSetScheduling(start_Date: Date, end_Date: Date): void;
   handleUnavailableDates(dates: MarkedDateProps): void;
+  handleSetUserSchedules(schedules: UserSchedules[]): void;
 }
 
 export interface Car {
@@ -32,6 +34,14 @@ export interface Car {
     name: string;
   }[];
   photos: string[];
+}
+
+export interface UserSchedules {
+  id: number;
+  user_id: number;
+  car: Car;
+  startDate: string;
+  endDate: string;
 }
 
 interface SchedulingProps {
@@ -53,12 +63,19 @@ export const CarContext = createContext({} as CarContextData);
 export function CarProvider({ children }: CarProviderProps) {
   const [car, setCarData] = useState<Car>({} as Car);
   const [scheduling, setScheduling] = useState<SchedulingDate>({} as SchedulingDate);
+  const [userSchedules, setUserSchedules] = useState<UserSchedules[]>(
+    [] as UserSchedules[]
+  );
   const [unavailableDates, setUnavailableDates] = useState<MarkedDateProps>(
     {} as MarkedDateProps
   );
 
   function handleSetCar(car: Car) {
     setCarData(car);
+  }
+
+  function handleSetUserSchedules(schedules: UserSchedules[]) {
+    setUserSchedules(schedules);
   }
 
   function handleSetScheduling(start_Date: Date, end_Date: Date) {
@@ -96,6 +113,8 @@ export function CarProvider({ children }: CarProviderProps) {
         handleSetScheduling,
         handleUnavailableDates,
         unavailableDates,
+        handleSetUserSchedules,
+        userSchedules,
       }}
     >
       {children}
