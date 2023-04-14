@@ -1,9 +1,9 @@
+import { ScrollView } from "react-native-gesture-handler";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled(ScrollView)`
   background-color: ${({ theme }) => theme.colors.background_secondary};
-  flex: 1;
 `;
 
 export const Header = styled.View`
@@ -56,6 +56,7 @@ export const DateBox = styled.View`
   align-items: center;
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.colors.line};
+  padding: 16px 0;
   padding-right: 16px;
 `;
 
@@ -90,6 +91,7 @@ export const ValueBox = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  margin: 16px 0;
 `;
 export const ValueDetails = styled.View``;
 
