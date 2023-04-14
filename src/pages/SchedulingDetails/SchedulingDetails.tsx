@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert, StatusBar } from "react-native";
+import uuid from "react-native-uuid";
 import { useTheme } from "styled-components";
 import { IconButton } from "../../components/Form/IconButton/IconButton";
 import {
@@ -43,6 +44,7 @@ export function SchedulingDetails() {
   const theme = useTheme();
   const navigation = useNavigation<any>();
   const { car, scheduling } = useCarData();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const startDate = format(scheduling.start_Date, "dd/MM/yyyy");
@@ -69,19 +71,33 @@ export function SchedulingDetails() {
       ...scheduling.interval,
     ];
 
+    const newScheduling = {
+      user_id: 1,
+      car,
+      startDate: format(scheduling.start_Date, "dd/MM/yyyy"),
+      endDate: format(scheduling.end_Date, "dd/MM/yyyy"),
+      id: uuid.v4(),
+    };
+
     await api
       .put(`/schedules_bycars/${car.id}`, {
         id: car.id,
         unavailable_dates,
       })
-      .then(() => {
-        setIsLoading(false);
-        navigation.navigate("SchedulingComplete");
-      })
       .catch((err) => {
         Alert.alert("Não foi possível confirmar o agendamento");
+        setIsLoading(false);
       });
-    setIsLoading(false);
+
+    await api.post(`/schedules_byuser`, newScheduling).catch((err) => {
+      Alert.alert("Não foi possível confirmar o agendamento");
+      setIsLoading(false);
+    });
+
+    if (!isLoading) {
+      setIsLoading(false);
+      navigation.navigate("SchedulingComplete");
+    }
   }
 
   function handleGoBack() {
