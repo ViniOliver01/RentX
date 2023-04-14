@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 
 import { CarDetails } from "../pages/CarDetails/CarDetails";
+import { Schedules } from "../pages/Schedules/Schedules";
 import { Scheduling } from "../pages/Scheduling/Scheduling";
 import { SchedulingComplete } from "../pages/SchedulingComplete/SchedulingComplete";
 import { SchedulingDetails } from "../pages/SchedulingDetails/SchedulingDetails";
@@ -17,6 +18,7 @@ export function StackRoutes() {
       <Screen name="Scheduling" component={Scheduling} />
       <Screen name="SchedulingComplete" component={SchedulingComplete} />
       <Screen name="SchedulingDetails" component={SchedulingDetails} />
+      <Screen name="Schedules" component={Schedules} />
     </Navigator>
   );
 }

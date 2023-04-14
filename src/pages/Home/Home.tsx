@@ -1,5 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { Body, Container, Header, TotalCars } from "./styles";
+import { Body, Container, Header, MyCarsButton, TotalCars } from "./styles";
 
 import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator, FlatList, StatusBar, View } from "react-native";
@@ -12,7 +13,7 @@ import api from "../../services/api";
 export function Home() {
   const [carList, setCarList] = useState<Car[]>();
   const [isLoading, setIsLoading] = useState(true);
-  const { handleSetCar } = useCarData();
+  const { handleSetCar, handleSetUserSchedules } = useCarData();
 
   const availableCars = 10;
   const theme = useTheme();
@@ -24,10 +25,18 @@ export function Home() {
     navigation.navigate("CarDetails");
   }
 
+  function handleOpenMyCars() {
+    navigation.navigate("Schedules");
+  }
+
   useEffect(() => {
     async function getData() {
-      const response = await api.get("/cars");
-      setCarList(response.data);
+      const carResponse = await api.get("/cars");
+      const userSchedulesResponse = await api.get(`/schedules_byuser?user_id=${1}`);
+
+      setCarList(carResponse.data);
+      handleSetUserSchedules(userSchedulesResponse.data);
+
       setIsLoading(false);
     }
     getData();
@@ -48,6 +57,7 @@ export function Home() {
           <FlatList
             data={carList}
             keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => {
               return <View style={{ height: 16 }}></View>;
             }}
@@ -64,6 +74,14 @@ export function Home() {
           />
         )}
       </Body>
+
+      <MyCarsButton onPress={handleOpenMyCars}>
+        <Ionicons
+          name="ios-car-sport"
+          size={32}
+          color={theme.colors.background_secondary}
+        />
+      </MyCarsButton>
     </Container>
   );
 }
