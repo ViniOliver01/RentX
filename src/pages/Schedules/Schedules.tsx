@@ -31,7 +31,7 @@ export function Schedules() {
     async function getData() {
       setIsLoading(true);
       const response = await api.get(`/schedules_byuser?user_id=${1}`);
-      setUserSchedules(response.data);
+      setUserSchedules(response.data.reverse());
       setIsLoading(false);
     }
     getData();
