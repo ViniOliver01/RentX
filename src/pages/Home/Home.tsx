@@ -1,21 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { BackHandler, FlatList, StatusBar, View } from "react-native";
+import { useTheme } from "styled-components";
 import { Body, Container, Header, MyCarsButton, TotalCars } from "./styles";
 
-import { useNavigation } from "@react-navigation/native";
-import { ActivityIndicator, FlatList, StatusBar, View } from "react-native";
-import { useTheme } from "styled-components";
 import Logo from "../../assets/logo.svg";
 import { CardCar } from "../../components/CardCar/CardCar";
 import { Car, useCarData } from "../../context/CarContext";
 import api from "../../services/api";
+import { LoadAnimation } from "./../../components/LoadAnimation/LoadAnimation";
 
 export function Home() {
-  const [carList, setCarList] = useState<Car[]>();
+  const [carList, setCarList] = useState<Car[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { handleSetCar } = useCarData();
 
-  const availableCars = 10;
+  const availableCars = carList.length;
   const theme = useTheme();
   const navigation = useNavigation<any>();
 
@@ -38,17 +39,22 @@ export function Home() {
     getData();
   }, []);
 
+  useFocusEffect(() => {
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", () => true);
+    return () => backHandler.remove();
+  });
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={theme.colors.header} />
       <Header>
         <Logo />
-        <TotalCars>Total de {availableCars} carros</TotalCars>
+        {carList.length !== 0 && <TotalCars>Total de {availableCars} carros</TotalCars>}
       </Header>
 
       <Body>
         {isLoading ? (
-          <ActivityIndicator size={"large"} color={theme.colors.header} />
+          <LoadAnimation />
         ) : (
           <FlatList
             data={carList}
