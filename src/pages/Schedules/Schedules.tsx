@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StatusBar } from "react-native";
+import { FlatList, StatusBar } from "react-native";
 import { useTheme } from "styled-components";
 import { CardCar } from "../../components/CardCar/CardCar";
 import { BackButton } from "../../components/Form/BackButton/BackButton";
+import { LoadAnimation } from "../../components/LoadAnimation/LoadAnimation";
 import { SchedulesPeriod } from "../../components/SchedulesPeriod/SchedulesPeriod";
 import { UserSchedules } from "../../context/CarContext";
 import api from "../../services/api";
@@ -48,7 +49,7 @@ export function Schedules() {
 
       <Body>
         {isLoading ? (
-          <ActivityIndicator size={"large"} color={theme.colors.header} />
+          <LoadAnimation />
         ) : (
           <>
             <SchedulesInfo>
